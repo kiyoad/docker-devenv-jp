@@ -43,4 +43,4 @@ Host docker-devenv
 
 ## Tips
 
-* UID(Currently 1000) of `developer` can be modified to the same as your UID, to avoid the problem of permission. But you don't have to worry about it if you using the Boot2Docker 1.5(or higher).
+* UID(Currently 1000) of `developer` can be modified to the same as your UID, to avoid the problem of permission. But you don't have to worry about it if you are using the Boot2Docker v1.5(or higher).
