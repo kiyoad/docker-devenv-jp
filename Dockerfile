@@ -1,7 +1,7 @@
 FROM ubuntu:trusty
 MAINTAINER KIYOHIRO ADACHI <kiyoad@da2.so-net.ne.jp>
 
-ENV REFRESHED_AT 2015-02-22
+ENV REFRESHED_AT 2015-03-02
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -17,7 +17,7 @@ RUN \
   apt-get install -qy language-pack-ja-base language-pack-ja && \
   apt-get install -qy cmigemo libncurses5-dev exuberant-ctags && \
   apt-get install -qy sdic sdic-edict sdic-gene95 && \
-  apt-get install -qy git libpython2.7-dev silversearcher-ag && \
+  apt-get install -qy git libpython2.7-dev silversearcher-ag texinfo install-info && \
   rm -rf /var/lib/apt/lists/*
 
 RUN \
