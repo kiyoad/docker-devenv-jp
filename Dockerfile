@@ -51,14 +51,18 @@ RUN \
   export ecgtags_path=/usr/local/bin/ecgtags && \
   echo '#!/bin/bash' > ${ecgtags_path} && \
   echo 'gtags --gtagslabel=exuberant-ctags $*' >> ${ecgtags_path} && \
-  chmod a+x ${ecgtags_path}
+  chmod a+x ${ecgtags_path} && \
+  export pygtags_path=/usr/local/bin/pygtags && \
+  echo '#!/bin/bash' > ${pygtags_path} && \
+  echo 'gtags --gtagslabel=pygments-parser $*' >> ${pygtags_path} && \
+  chmod a+x ${pygtags_path}
 
 RUN \
   mkdir .build_pip && \
   (cd .build_pip && wget -q https://bootstrap.pypa.io/get-pip.py && python get-pip.py && cd ..)
 
 RUN \
-  pip install grip virtualenv flake8 && \
+  pip install grip virtualenv flake8 pygments && \
   export markdown_path=/usr/local/bin/markdown && \
   echo '#!/bin/bash' > ${markdown_path} && \
   echo 'set -eu' >> ${markdown_path} && \
