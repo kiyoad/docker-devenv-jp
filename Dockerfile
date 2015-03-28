@@ -43,7 +43,7 @@ RUN \
   (cd .build_emacs && ./configure && make install && make clean && cd ..)
 
 RUN \
-  export global=global-6.3.4 && \
+  export global=global-6.4 && \
   wget -q -O - http://ftpmirror.gnu.org/global/${global}.tar.gz | tar zxf - && \
   mv ${global} .build_global && \
   (cd .build_global && ./configure --with-exuberant-ctags=/usr/bin/ctags-exuberant && make install && make clean && cd ..) && \
