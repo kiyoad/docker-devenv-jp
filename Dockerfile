@@ -1,7 +1,7 @@
 FROM ubuntu:trusty
 MAINTAINER KIYOHIRO ADACHI <kiyoad@da2.so-net.ne.jp>
 
-ENV REFRESHED_AT 2015-03-28
+ENV REFRESHED_AT 2015-04-25
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -9,7 +9,7 @@ RUN \
   echo "deb http://ftp.riken.jp/Linux/ubuntu/ trusty main multiverse" >> /etc/apt/sources.list && \
   echo "deb-src http://ftp.riken.jp/Linux/ubuntu/ trusty main multiverse" >> /etc/apt/sources.list && \
   apt-get update && apt-get upgrade -y && \
-  apt-get install -qy openssh-server && \
+  apt-get install -qy openssh-server xz-utils && \
   apt-get install -qy gcc make && \
   apt-get install -qy libtinfo-dev libx11-dev libxaw7-dev libgif-dev libjpeg-turbo8-dev libpng12-dev libtiff5-dev libxml2-dev librsvg2-dev libxft-dev libxpm-dev libgpm-dev libsm-dev libice-dev libxrandr-dev libxinerama-dev && \
   apt-get install -qy aspell wamerican && \
@@ -37,8 +37,8 @@ ENV LANG ja_jp.UTF-8
 
 WORKDIR /home/developer
 RUN \
-  export emacs=emacs-24.4 && \
-  wget -q -O - http://ftpmirror.gnu.org/emacs/${emacs}.tar.gz | tar zxf - && \
+  export emacs=emacs-24.5 && \
+  wget -q -O - http://ftpmirror.gnu.org/emacs/${emacs}.tar.xz | tar xJf - && \
   mv ${emacs} .build_emacs && \
   (cd .build_emacs && ./configure && make install && make clean && cd ..)
 
