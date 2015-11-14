@@ -14,7 +14,7 @@ RUN \
   apt-get install -qy libtinfo-dev libx11-dev libxaw7-dev libgif-dev libjpeg-turbo8-dev libpng12-dev libtiff5-dev libxml2-dev librsvg2-dev libxft-dev libxpm-dev libgpm-dev libsm-dev libice-dev libxrandr-dev libxinerama-dev && \
   apt-get install -qy aspell wamerican && \
   apt-get install -qy fonts-takao fonts-takao-gothic fonts-takao-mincho fonts-takao-pgothic && \
-  apt-get install -qy language-pack-ja-base language-pack-ja && \
+  apt-get install -qy language-pack-ja=1:14.04+20140410 && \
   apt-get install -qy cmigemo libncurses5-dev exuberant-ctags && \
   apt-get install -qy sdic sdic-edict sdic-gene95 && \
   apt-get install -qy git libpython2.7-dev silversearcher-ag texinfo install-info && \
