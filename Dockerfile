@@ -1,7 +1,7 @@
 FROM ubuntu:trusty
 MAINTAINER KIYOHIRO ADACHI <kiyoad@da2.so-net.ne.jp>
 
-ENV REFRESHED_AT 2015-04-25
+ENV REFRESHED_AT 2015-11-14
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -43,7 +43,7 @@ RUN \
   (cd .build_emacs && ./configure && make install && make clean && cd ..)
 
 RUN \
-  export global=global-6.4 && \
+  export global=global-6.5.1 && \
   wget -q -O - http://ftpmirror.gnu.org/global/${global}.tar.gz | tar zxf - && \
   mv ${global} .build_global && \
   (cd .build_global && ./configure --with-exuberant-ctags=/usr/bin/ctags-exuberant && make install && make clean && cd ..) && \
