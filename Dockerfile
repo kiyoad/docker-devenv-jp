@@ -70,5 +70,17 @@ RUN \
   echo 'cat ${1%.*}.html' >> ${markdown_path} && \
   chmod a+x ${markdown_path}
 
+RUN \
+  export golang=go1.5.1 && \
+  wget -q -O - https://storage.googleapis.com/golang/${golang}.linux-amd64.tar.gz | tar -C /usr/local -zxf  - && \
+  mkdir .go && \
+  echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/.go/bin' >> .profile && \
+  echo 'export GOPATH=$HOME/.go' >> .profile && \
+  export PATH=$PATH:/usr/local/go/bin && \
+  export GOPATH=$(pwd)/.go && \
+  go get -u github.com/rogpeppe/godef && \
+  go get -u github.com/nsf/gocode && \
+  go get -u github.com/dougm/goflymake
+ 
 ENTRYPOINT ["/usr/sbin/sshd", "-D"]
 EXPOSE 22
