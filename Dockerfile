@@ -82,7 +82,10 @@ RUN \
   export GOPATH=/opt/go && \
   go get -u github.com/rogpeppe/godef && \
   go get -u github.com/nsf/gocode && \
-  go get -u github.com/dougm/goflymake
- 
+  go get -u github.com/dougm/goflymake && \
+  go get -u github.com/jstemmer/gotags && \
+  go get -u github.com/kisielk/errcheck && \
+  go get -u golang.org/x/tools/cmd/goimports
+
 ENTRYPOINT ["/usr/sbin/sshd", "-D"]
 EXPOSE 22
