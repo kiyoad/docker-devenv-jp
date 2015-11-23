@@ -76,6 +76,8 @@ RUN \
   mkdir /opt/go && \
   echo 'export PATH=$PATH:/usr/local/go/bin:/opt/go/bin' >> .profile && \
   echo 'export GOPATH=/opt/go' >> .profile && \
+  echo 'export PATH=$PATH:/usr/local/go/bin:/opt/go/bin' >> /root/.profile && \
+  echo 'export GOPATH=/opt/go' >> /root/.profile && \
   export PATH=$PATH:/usr/local/go/bin && \
   export GOPATH=/opt/go && \
   go get -u github.com/rogpeppe/godef && \
