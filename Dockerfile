@@ -73,11 +73,11 @@ RUN \
 RUN \
   export golang=go1.5.1 && \
   wget -q -O - https://storage.googleapis.com/golang/${golang}.linux-amd64.tar.gz | tar -C /usr/local -zxf  - && \
-  mkdir .go && \
-  echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/.go/bin' >> .profile && \
-  echo 'export GOPATH=$HOME/.go' >> .profile && \
+  mkdir /opt/go && \
+  echo 'export PATH=$PATH:/usr/local/go/bin:/opt/go/bin' >> .profile && \
+  echo 'export GOPATH=/opt/go' >> .profile && \
   export PATH=$PATH:/usr/local/go/bin && \
-  export GOPATH=$(pwd)/.go && \
+  export GOPATH=/opt/go && \
   go get -u github.com/rogpeppe/godef && \
   go get -u github.com/nsf/gocode && \
   go get -u github.com/dougm/goflymake
