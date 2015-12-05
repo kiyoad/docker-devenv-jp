@@ -18,6 +18,7 @@ RUN \
   apt-get install -qy cmigemo libncurses5-dev exuberant-ctags && \
   apt-get install -qy sdic sdic-edict sdic-gene95 && \
   apt-get install -qy git libpython2.7-dev silversearcher-ag texinfo install-info && \
+  apt-get install -qy libssl-dev libcurl4-openssl-dev tcl gettext && \
   rm -rf /var/lib/apt/lists/*
 
 RUN \
@@ -86,6 +87,12 @@ RUN \
   go get -u github.com/jstemmer/gotags && \
   go get -u github.com/kisielk/errcheck && \
   go get -u golang.org/x/tools/cmd/goimports
+
+RUN \
+  export git=1.9.5 && \
+  wget -q -O - https://github.com/git/git/archive/v${git}.tar.gz | tar zxf - && \
+  mv git-${git} .build_git && \
+  (cd .build_git && make prefix=/usr/local && make prefix=/usr/local install && make clean && cd ..)
 
 ENTRYPOINT ["/usr/sbin/sshd", "-D"]
 EXPOSE 22
