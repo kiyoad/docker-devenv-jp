@@ -1,7 +1,7 @@
 FROM ubuntu:trusty
 MAINTAINER KIYOHIRO ADACHI <kiyoad@da2.so-net.ne.jp>
 
-ENV REFRESHED_AT 2015-11-15
+ENV REFRESHED_AT 2015-12-07
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -67,7 +67,7 @@ RUN \
   export markdown_path=/usr/local/bin/markdown && \
   echo '#!/bin/bash' > ${markdown_path} && \
   echo 'set -eu' >> ${markdown_path} && \
-  echo 'grip --gfm --export ${1} > /dev/null' >> ${markdown_path} && \
+  echo 'grip --export ${1} > /dev/null 2>&1' >> ${markdown_path} && \
   echo 'cat ${1%.*}.html' >> ${markdown_path} && \
   chmod a+x ${markdown_path}
 
