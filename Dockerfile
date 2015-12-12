@@ -39,35 +39,20 @@ RUN \
   export emacs=emacs-24.5 && \
   wget -q -O - http://ftpmirror.gnu.org/emacs/${emacs}.tar.xz | tar xJf - && \
   mv ${emacs} .build_emacs && \
-  (cd .build_emacs && ./configure && make install && make clean && cd ..)
+  (cd .build_emacs && ./configure && make install && make clean && cd ..) && \
+  echo 'export PATH=$PATH:~/.emacs.d/bin' >> .profile
 
 RUN \
   export global=global-6.5.1 && \
   wget -q -O - http://ftpmirror.gnu.org/global/${global}.tar.gz | tar zxf - && \
   mv ${global} .build_global && \
   (cd .build_global && ./configure --with-exuberant-ctags=/usr/bin/ctags-exuberant && make install && make clean && cd ..) && \
-  cp /usr/local/share/gtags/gtags.conf .globalrc && \
-  export ecgtags_path=/usr/local/bin/ecgtags && \
-  echo '#!/bin/bash' > ${ecgtags_path} && \
-  echo 'gtags --gtagslabel=exuberant-ctags $*' >> ${ecgtags_path} && \
-  chmod a+x ${ecgtags_path} && \
-  export pygtags_path=/usr/local/bin/pygtags && \
-  echo '#!/bin/bash' > ${pygtags_path} && \
-  echo 'gtags --gtagslabel=pygments-parser $*' >> ${pygtags_path} && \
-  chmod a+x ${pygtags_path}
+  cp /usr/local/share/gtags/gtags.conf .globalrc
 
 RUN \
   mkdir .build_pip && \
-  (cd .build_pip && wget -q https://bootstrap.pypa.io/get-pip.py && python get-pip.py && cd ..)
-
-RUN \
-  pip install grip virtualenv flake8 pygments && \
-  export markdown_path=/usr/local/bin/markdown && \
-  echo '#!/bin/bash' > ${markdown_path} && \
-  echo 'set -eu' >> ${markdown_path} && \
-  echo 'grip --export ${1} > /dev/null 2>&1' >> ${markdown_path} && \
-  echo 'cat ${1%.*}.html' >> ${markdown_path} && \
-  chmod a+x ${markdown_path}
+  (cd .build_pip && wget -q https://bootstrap.pypa.io/get-pip.py && python get-pip.py && cd ..) && \
+  pip install grip virtualenv flake8 pygments
 
 RUN \
   export golang=go1.5.2 && \
