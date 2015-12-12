@@ -1,8 +1,6 @@
 FROM ubuntu:trusty
 MAINTAINER KIYOHIRO ADACHI <kiyoad@da2.so-net.ne.jp>
 
-ENV REFRESHED_AT 2015-12-07
-
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN \
@@ -96,3 +94,5 @@ RUN \
 
 ENTRYPOINT ["/usr/sbin/sshd", "-D"]
 EXPOSE 22
+
+ENV REFRESHED_AT 2015-12-12
