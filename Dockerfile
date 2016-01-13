@@ -43,7 +43,7 @@ RUN \
   echo 'export PATH=$PATH:~/.emacs.d/bin' >> .profile
 
 RUN \
-  export global=global-6.5.1 && \
+  export global=global-6.5.2 && \
   wget -q -O - http://ftpmirror.gnu.org/global/${global}.tar.gz | tar zxf - && \
   mv ${global} .build_global && \
   (cd .build_global && ./configure --with-exuberant-ctags=/usr/bin/ctags-exuberant && make install && make clean && cd ..) && \
@@ -72,7 +72,7 @@ RUN \
   go get -u golang.org/x/tools/cmd/goimports
 
 RUN \
-  export git=1.9.5 && \
+  export git=2.7.0 && \
   wget -q -O - https://github.com/git/git/archive/v${git}.tar.gz | tar zxf - && \
   mv git-${git} .build_git && \
   (cd .build_git && make prefix=/usr/local && make prefix=/usr/local install && make clean && cd ..)
@@ -80,4 +80,4 @@ RUN \
 ENTRYPOINT ["/usr/sbin/sshd", "-D"]
 EXPOSE 22
 
-ENV REFRESHED_AT 2015-12-12
+ENV REFRESHED_AT 2016-01-13
