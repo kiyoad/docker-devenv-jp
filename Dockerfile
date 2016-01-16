@@ -7,12 +7,12 @@ RUN \
   echo "deb http://ftp.riken.jp/Linux/ubuntu/ trusty main multiverse" >> /etc/apt/sources.list && \
   echo "deb-src http://ftp.riken.jp/Linux/ubuntu/ trusty main multiverse" >> /etc/apt/sources.list && \
   apt-get update && apt-get upgrade -y && \
-  apt-get install -qy openssh-server xz-utils && \
-  apt-get install -qy gcc make && \
+  apt-get install -qy openssh-server && \
+  apt-get install -qy language-pack-ja man-db manpages-ja manpages-ja-dev && \
+  apt-get install -qy gcc make xz-utils && \
   apt-get install -qy libtinfo-dev libx11-dev libxaw7-dev libgif-dev libjpeg-turbo8-dev libpng12-dev libtiff5-dev libxml2-dev librsvg2-dev libxft-dev libxpm-dev libgpm-dev libsm-dev libice-dev libxrandr-dev libxinerama-dev libgnutls-dev libmagickwand-dev xaw3dg-dev libdbus-1-dev libgconf2-dev libotf-dev libm17n-dev && \
   apt-get install -qy aspell wamerican && \
   apt-get install -qy fonts-takao fonts-takao-gothic fonts-takao-mincho fonts-takao-pgothic && \
-  apt-get install -qy language-pack-ja && \
   apt-get install -qy cmigemo libncurses5-dev exuberant-ctags && \
   apt-get install -qy sdic sdic-edict sdic-gene95 && \
   apt-get install -qy git libpython2.7-dev silversearcher-ag texinfo install-info && \
