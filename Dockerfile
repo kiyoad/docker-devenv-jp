@@ -16,8 +16,7 @@ RUN \
   apt-get install -qy cmigemo libncurses5-dev exuberant-ctags && \
   apt-get install -qy sdic sdic-edict sdic-gene95 && \
   apt-get install -qy git libpython2.7-dev silversearcher-ag texinfo install-info && \
-  apt-get install -qy libssl-dev libcurl4-openssl-dev tcl gettext && \
-  rm -rf /var/lib/apt/lists/*
+  apt-get install -qy libssl-dev libcurl4-openssl-dev tcl gettext
 
 RUN \
   mkdir /var/run/sshd && \
