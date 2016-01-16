@@ -54,7 +54,7 @@ RUN \
   pip install grip virtualenv flake8 pygments
 
 RUN \
-  export golang=go1.5.2 && \
+  export golang=go1.5.3 && \
   wget -q -O - https://storage.googleapis.com/golang/${golang}.linux-amd64.tar.gz | tar -C /usr/local -zxf  - && \
   mkdir /opt/go && \
   echo 'export PATH=$PATH:/usr/local/go/bin:/opt/go/bin' >> .profile && \
