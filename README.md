@@ -2,45 +2,47 @@
 My Development environment for using Emacs by docker
 
 ## How to use
+### Linux
+
+1. Prepare `docker 1.9.1` and `jq 1.5`. This is the version at the time of operation check.
+1. Copy your `id_rsa.pub` to the same directory as `Dockerfile`.
+1. Run `./docker_build.sh`.
+1. Change `export_local_dir` in `docker_run.sh` to your working directory.
+1. Run `./docker_run.sh`.
+1. Check the container names using `docker ps`. For example, it is a name like `devenv_20160116`.
+1. Run `./login_cntr.sh CONTAINER_NAME`. For example, `./login_cntr.sh devenv_20160116`.
+1. This is the login completion.
+1. Please do `docker stop CONTAINER_NAME` after your work ends, and do `docker start CONTAINER_NAME` before your work start again. You do not need to do `./docker_run.sh` repeatedly.
+
+### MacOSX
+
+1. Prepare `docker 1.9.1`, `docker-machine 0.5.6` and `jq 1.5`. This is the version at the time of operation check. I used the `brew` to install.
+1. Copy your `id_rsa.pub` to the same directory as `Dockerfile`.
+1. Run `./mac_docker_build.sh`.
+1. Change `export_local_dir` in `mac_docker_run.sh` to your working directory.
+1. Run `./mac_docker_run.sh`.
+1. Run `./mac_login_cntr.sh`. The container name can not be specified.
+1. This is the login completion.
+1. Please do `docker stop CONTAINER_NAME` after your work ends, and do `docker start CONTAINER_NAME` before your work start again. You do not need to do `./mac_docker_run.sh` repeatedly.
+
+## Description of the variables in the scripts
 
 <dl>
-<dt>IMAGE_NAME</dt>
+<dt>image_name</dt>
 <dd>Image name.(Ex.: 'kiyoad/devenv')</dd>
 
-<dt>LOCAL_PORT</dt>
-<dd>A free ssh redirection port.(Ex.: '12222')</dd>
+<dt>container_name</dt>
+<dd>Container name.(Ex.: 'devenv')</dd>
 
-<dt>LOCAL_DOC_DIR</dt>
-<dd>Your working directory that uses it in docker.(Ex.: '/home/kiyoad/Documents')</dd>
+<dt>export_local_dir</dt>
+<dd>Your working directory that uses it in the container.(Ex.: '/home/kiyoad/Documents') This directory is mounted in the container.</dd>
 
-<dt>MOUNT_POINT</dt>
-<dd>A mount point for your working directory.(Ex.: 'Documents')</dd>
-
-<dt>CONTAINER_NAME</dt>
-<dd>Your container name.(Ex.: 'devenv')</dd>
-
-<dt>DOCKER_HOST</dt>
-<dd>Boot2Docker VM IP address when you are using it.(Ex.: '192.168.59.103')</dd>
+<dt>devenv_ssh_port</dt>
+<dd>A free ssh redirection port in the docker-machine's VM.(Ex.: '12222')</dd>
 
 </dl>
 
-1. Copy your `id_rsa.pub` to the same directory as `Dockerfile`.
-1. Run `docker build -t <IMAGE_NAME> .`
-1. Run `docker run -d -p 127.0.0.1:<LOCAL_PORT>:22 -v <LOCAL_DOC_DIR>:/home/developer/<MOUNT_POINT> --name=<CONTAINER_NAME> <IMAGE_NAME>`
-1. If you are using the Boot2Docker in MacOSX, you should do 'port forwarding' like this `ssh -N -L <LOCAL_PORT>:127.0.0.1:<LOCAL_PORT> docker@<DOCKER_HOST> -i ~/.ssh/id_boot2docker`
-1. Add `Host` definition in your `~/.ssh/config` like this.
-
-```
-Host docker-devenv
-  User      developer
-  Port      <LOCAL_PORT>
-  HostName  127.0.0.1
-  ForwardX11 yes
-```
-
-1. Run `ssh docker-devenv` and enter your development environment!
-1. Please do `docker stop <CONTAINER_NAME>` after your work ends, and do `docker start <CONTAINER_NAME>` before your work start again. You do not need to do `docker run` repeatedly.
-
 ## Tips
 
-* UID(Currently 1000) of `developer` can be modified to the same as your UID, to avoid the problem of permission. But you don't have to worry about it if you are using the Boot2Docker v1.5(or higher).
+* You can change the container name using `docker rename`.
+* UID(Currently 1000) of `developer` can be modified to the same as your UID, to avoid the problem of permission. But you don't have to worry about it if you are using in MacOSX.
