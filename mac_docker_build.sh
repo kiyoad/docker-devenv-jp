@@ -2,5 +2,6 @@
 set -eux
 
 image_name=kiyoad/devenv
+id=$(date '+%Y%m%d')
 
-script docker_build.log docker build -t ${image_name} .
+script -a docker_build_${id}.log docker build -t ${image_name}_${id} .
