@@ -1,0 +1,36 @@
+FROM centos:7
+MAINTAINER KIYOHIRO ADACHI <kiyoad@da2.so-net.ne.jp>
+
+RUN \
+  yum -y update && yum -y reinstall glibc-common && \
+  yum install -y openssh-server sudo wget iproute && \
+  ssh-keygen -N "" -t rsa -f /etc/ssh/ssh_host_rsa_key && \
+  ssh-keygen -N "" -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key && \
+  ssh-keygen -N "" -t ed25519 -f /etc/ssh/ssh_host_ed25519_key
+
+RUN \
+  useradd -u 1000 -m developer && \
+  mkdir /home/developer/.ssh
+ADD id_rsa.pub /home/developer/.ssh/authorized_keys
+RUN \
+  chown -R developer:developer /home/developer && \
+  echo "developer ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/developer && \
+  chmod 0440 /etc/sudoers.d/developer && \
+  echo 'LANG="ja_JP.UTF-8"' > /etc/locale.conf && \
+  rm /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+
+WORKDIR /home/developer
+
+RUN \
+  mkdir .build_pip && \
+  (cd .build_pip && wget -q https://bootstrap.pypa.io/get-pip.py && python get-pip.py && cd ..) && \
+  pip install supervisor && \
+  echo_supervisord_conf | sed -e 's/^nodaemon=false/nodaemon=true/' > /etc/supervisord.conf && \
+  echo "[program:sshd]" >> /etc/supervisord.conf && \
+  echo "command=/usr/sbin/sshd -D" >> /etc/supervisord.conf && \
+  rm -rf .build_pip
+
+ENTRYPOINT ["/usr/bin/supervisord"]
+EXPOSE 22
+
+ENV REFRESHED_AT 2016-01-24

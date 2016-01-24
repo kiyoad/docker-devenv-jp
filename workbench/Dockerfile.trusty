@@ -1,0 +1,40 @@
+FROM ubuntu:trusty
+MAINTAINER KIYOHIRO ADACHI <kiyoad@da2.so-net.ne.jp>
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN \
+  echo "deb http://ftp.riken.jp/Linux/ubuntu/ trusty main multiverse" >> /etc/apt/sources.list && \
+  echo "deb-src http://ftp.riken.jp/Linux/ubuntu/ trusty main multiverse" >> /etc/apt/sources.list && \
+  apt-get update && apt-get upgrade -y && \
+  apt-get install -qy openssh-server language-pack-ja
+
+RUN \
+  mkdir /var/run/sshd && \
+  adduser --disabled-password --gecos "Developer" --uid 1000 developer && \
+  mkdir /home/developer/.ssh
+ADD id_rsa.pub /home/developer/.ssh/authorized_keys
+RUN \
+  chown -R developer:developer /home/developer && \
+  echo "developer ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/developer && \
+  chmod 0440 /etc/sudoers.d/developer && \
+  update-locale LANG=ja_JP.UTF-8 LANGUAGE="ja_JP:ja" && \
+  rm /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
+  echo "Asia/Tokyo" > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
+ENV LANG ja_jp.UTF-8
+
+WORKDIR /home/developer
+
+RUN \
+  mkdir .build_pip && \
+  (cd .build_pip && wget -q https://bootstrap.pypa.io/get-pip.py && python get-pip.py && cd ..) && \
+  pip install supervisor && \
+  echo_supervisord_conf | sed -e 's/^nodaemon=false/nodaemon=true/' > /etc/supervisord.conf && \
+  echo "[program:sshd]" >> /etc/supervisord.conf && \
+  echo "command=/usr/sbin/sshd -D" >> /etc/supervisord.conf && \
+  rm -rf .build_pip
+
+ENTRYPOINT ["/usr/local/bin/supervisord"]
+EXPOSE 22
+
+ENV REFRESHED_AT 2016-01-24
