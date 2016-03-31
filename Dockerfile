@@ -42,7 +42,7 @@ RUN \
   echo 'export PATH=$PATH:~/.emacs.d/bin' >> .profile
 
 RUN \
-  export global=global-6.5.2 && \
+  export global=global-6.5.4 && \
   wget -q -O - http://ftpmirror.gnu.org/global/${global}.tar.gz | tar zxf - && \
   mv ${global} .build_global && \
   (cd .build_global && ./configure --with-exuberant-ctags=/usr/bin/ctags-exuberant && make install && make clean && cd ..) && \
@@ -51,10 +51,10 @@ RUN \
 RUN \
   mkdir .build_pip && \
   (cd .build_pip && wget -q https://bootstrap.pypa.io/get-pip.py && python get-pip.py && cd ..) && \
-  pip install grip virtualenv flake8 pygments
+  LANG=C pip install grip virtualenv flake8 pygments
 
 RUN \
-  export golang=go1.5.3 && \
+  export golang=go1.6 && \
   wget -q -O - https://storage.googleapis.com/golang/${golang}.linux-amd64.tar.gz | tar -C /usr/local -zxf  - && \
   mkdir /opt/go && \
   echo 'export PATH=$PATH:/usr/local/go/bin:/opt/go/bin' >> .profile && \
@@ -71,7 +71,7 @@ RUN \
   go get -u golang.org/x/tools/cmd/goimports
 
 RUN \
-  export git=2.7.0 && \
+  export git=2.8.0 && \
   wget -q -O - https://github.com/git/git/archive/v${git}.tar.gz | tar zxf - && \
   mv git-${git} .build_git && \
   (cd .build_git && make prefix=/usr/local && make prefix=/usr/local install && make clean && cd ..)
