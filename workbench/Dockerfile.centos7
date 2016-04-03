@@ -22,15 +22,13 @@ RUN \
 WORKDIR /home/developer
 
 RUN \
-  mkdir .build_pip && \
-  (cd .build_pip && wget -q https://bootstrap.pypa.io/get-pip.py && python get-pip.py && cd ..) && \
-  pip install supervisor && \
-  echo_supervisord_conf | sed -e 's/^nodaemon=false/nodaemon=true/' > /etc/supervisord.conf && \
+  yum install -y epel-release && \
+  yum install -y supervisor && \
+  sed -i -e 's/^nodaemon=false/nodaemon=true/' /etc/supervisord.conf && \
   echo "[program:sshd]" >> /etc/supervisord.conf && \
-  echo "command=/usr/sbin/sshd -D" >> /etc/supervisord.conf && \
-  rm -rf .build_pip
+  echo "command=/usr/sbin/sshd -D" >> /etc/supervisord.conf
 
-ENTRYPOINT ["/usr/bin/supervisord"]
+CMD ["/usr/bin/supervisord"]
 EXPOSE 22
 
-ENV REFRESHED_AT 2016-01-24
+ENV REFRESHED_AT 2016-04-03
