@@ -71,7 +71,7 @@ RUN \
   go get -u golang.org/x/tools/cmd/goimports
 
 RUN \
-  export git=2.8.0 && \
+  export git=2.8.1 && \
   wget -q -O - https://github.com/git/git/archive/v${git}.tar.gz | tar zxf - && \
   mv git-${git} .build_git && \
   (cd .build_git && make prefix=/usr/local && make prefix=/usr/local install && make clean && cd ..)
@@ -79,4 +79,4 @@ RUN \
 ENTRYPOINT ["/usr/sbin/sshd", "-D"]
 EXPOSE 22
 
-ENV REFRESHED_AT 2016-04-01
+ENV REFRESHED_AT 2016-04-05
