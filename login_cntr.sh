@@ -6,5 +6,5 @@ if [ $# -ne 1 ]; then
     exit 1
 fi
 
-IP=$(docker inspect $1 | jq -r '.[]|.NetworkSettings|.Networks|.bridge.IPAddress')
+IP=$(docker inspect --format="{{ .NetworkSettings.Networks.bridge.IPAddress }}" $1)
 ssh -o 'StrictHostKeyChecking no' -o 'UserKnownHostsFile /dev/null' -o 'ForwardX11 yes' developer@${IP}

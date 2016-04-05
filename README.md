@@ -4,7 +4,7 @@ My Development environment for using Emacs by docker
 ## How to use
 ### Linux
 
-1. Prepare `docker 1.9.1` and `jq 1.5`. This is the version at the time of operation check.
+1. Prepare `docker 1.9.1`. This is the version at the time of operation check.
 1. Copy your `id_rsa.pub` to the same directory as `Dockerfile`.
 1. Run `./docker_build.sh`.
 1. Change `export_local_dir` in `docker_run.sh` to your working directory.
@@ -16,7 +16,7 @@ My Development environment for using Emacs by docker
 
 ### MacOSX
 
-1. Prepare `docker 1.9.1`, `docker-machine 0.5.6` and `jq 1.5`. This is the version at the time of operation check. I used the `brew` to install.
+1. Prepare `docker 1.9.1`, `docker-machine 0.5.6`. This is the version at the time of operation check. I used the `brew` to install.
 1. Copy your `id_rsa.pub` to the same directory as `Dockerfile`.
 1. Run `./mac_docker_build.sh`.
 1. Change `export_local_dir` in `mac_docker_run.sh` to your working directory.
