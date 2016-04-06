@@ -34,6 +34,13 @@ RUN \
   echo "Asia/Tokyo" > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
 
 RUN \
+  apt-get install -qy supervisor && \
+  echo_supervisord_conf | sed -e 's/^nodaemon=false/nodaemon=true/' > /etc/supervisord.conf && \
+  echo "[program:sshd]" >> /etc/supervisord.conf && \
+  echo "command=/usr/sbin/sshd -D" >> /etc/supervisord.conf
+
+EXPOSE 22
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
 
 WORKDIR /home/${INSTALL_USER}
 RUN \
