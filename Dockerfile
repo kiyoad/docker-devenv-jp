@@ -1,8 +1,9 @@
 FROM ubuntu:trusty
 MAINTAINER KIYOHIRO ADACHI <kiyoad@da2.so-net.ne.jp>
 
-ENV DEBIAN_FRONTEND noninteractive
+ADD id_rsa.pub /tmp/authorized_keys
 
+ENV DEBIAN_FRONTEND noninteractive
 RUN \
   echo "deb http://ftp.riken.jp/Linux/ubuntu/ trusty main multiverse" >> /etc/apt/sources.list && \
   echo "deb-src http://ftp.riken.jp/Linux/ubuntu/ trusty main multiverse" >> /etc/apt/sources.list && \
@@ -18,21 +19,23 @@ RUN \
   apt-get install -qy git libpython2.7-dev silversearcher-ag texinfo install-info && \
   apt-get install -qy libssl-dev libcurl4-openssl-dev tcl gettext
 
+ENV INSTALL_USER developer
 RUN \
   mkdir /var/run/sshd && \
-  adduser --disabled-password --gecos "Developer" --uid 1000 developer && \
-  mkdir /home/developer/.ssh
-ADD id_rsa.pub /home/developer/.ssh/authorized_keys
-RUN \
-  echo "lang en_US" > /home/developer/.aspell.conf && \
-  chown -R developer:developer /home/developer && \
-  echo "developer ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/developer && \
-  chmod 0440 /etc/sudoers.d/developer && \
+  adduser --disabled-password --gecos "Developer" --uid 1000 ${INSTALL_USER} && \
+  mkdir /home/${INSTALL_USER}/.ssh && \
+  mv /tmp/authorized_keys /home/${INSTALL_USER}/.ssh/authorized_keys && \
+  echo "lang en_US" > /home/${INSTALL_USER}/.aspell.conf && \
+  chown -R ${INSTALL_USER}:${INSTALL_USER} /home/${INSTALL_USER} && \
+  echo "${INSTALL_USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${INSTALL_USER} && \
+  chmod 0440 /etc/sudoers.d/${INSTALL_USER} && \
   update-locale LANG=ja_JP.UTF-8 LANGUAGE="ja_JP:ja" && \
   cp -p /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
   echo "Asia/Tokyo" > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
 
-WORKDIR /home/developer
+RUN \
+
+WORKDIR /home/${INSTALL_USER}
 RUN \
   export emacs=emacs-24.5 && \
   wget -q -O - http://ftpmirror.gnu.org/emacs/${emacs}.tar.xz | tar xJf - && \
