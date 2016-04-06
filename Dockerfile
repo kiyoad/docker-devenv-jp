@@ -16,7 +16,7 @@ RUN \
   apt-get install -qy fonts-takao fonts-takao-gothic fonts-takao-mincho fonts-takao-pgothic && \
   apt-get install -qy cmigemo libncurses5-dev exuberant-ctags && \
   apt-get install -qy sdic sdic-edict sdic-gene95 && \
-  apt-get install -qy git libpython2.7-dev silversearcher-ag texinfo install-info && \
+  apt-get install -qy libpython2.7-dev silversearcher-ag texinfo install-info && \
   apt-get install -qy libssl-dev libcurl4-openssl-dev tcl gettext
 
 ENV INSTALL_USER developer
