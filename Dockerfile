@@ -31,7 +31,6 @@ RUN \
   update-locale LANG=ja_JP.UTF-8 LANGUAGE="ja_JP:ja" && \
   cp -p /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
   echo "Asia/Tokyo" > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
-ENV LANG ja_jp.UTF-8
 
 WORKDIR /home/developer
 RUN \
@@ -51,7 +50,7 @@ RUN \
 RUN \
   mkdir .build_pip && \
   (cd .build_pip && wget -q https://bootstrap.pypa.io/get-pip.py && python get-pip.py && cd ..) && \
-  LANG=C pip install grip virtualenv flake8 pygments
+  pip install grip virtualenv flake8 pygments
 
 RUN \
   export golang=go1.6 && \
