@@ -47,20 +47,26 @@ RUN \
   export emacs=emacs-24.5 && \
   wget -q -O - http://ftpmirror.gnu.org/emacs/${emacs}.tar.xz | tar xJf - && \
   mv ${emacs} .build_emacs && \
-  (cd .build_emacs && ./configure && make install && make clean && cd ..) && \
+  (cd .build_emacs && ./configure && make install && make clean) && \
   echo 'export PATH=$PATH:~/.emacs.d/bin' >> .profile
 
 RUN \
   export global=global-6.5.4 && \
   wget -q -O - http://ftpmirror.gnu.org/global/${global}.tar.gz | tar zxf - && \
   mv ${global} .build_global && \
-  (cd .build_global && ./configure --with-exuberant-ctags=/usr/bin/ctags-exuberant && make install && make clean && cd ..) && \
+  (cd .build_global && ./configure --with-exuberant-ctags=/usr/bin/ctags-exuberant && make install && make clean) && \
   cp /usr/local/share/gtags/gtags.conf .globalrc
 
 RUN \
   mkdir .build_pip && \
-  (cd .build_pip && wget -q https://bootstrap.pypa.io/get-pip.py && python get-pip.py && cd ..) && \
+  (cd .build_pip && wget -q https://bootstrap.pypa.io/get-pip.py && python get-pip.py) && \
   pip install grip virtualenv flake8 pygments
+
+RUN \
+  export git=2.8.1 && \
+  wget -q -O - https://github.com/git/git/archive/v${git}.tar.gz | tar zxf - && \
+  mv git-${git} .build_git && \
+  (cd .build_git && make prefix=/usr/local && make prefix=/usr/local install && make clean)
 
 RUN \
   export golang=go1.6 && \
@@ -79,13 +85,4 @@ RUN \
   go get -u github.com/kisielk/errcheck && \
   go get -u golang.org/x/tools/cmd/goimports
 
-RUN \
-  export git=2.8.1 && \
-  wget -q -O - https://github.com/git/git/archive/v${git}.tar.gz | tar zxf - && \
-  mv git-${git} .build_git && \
-  (cd .build_git && make prefix=/usr/local && make prefix=/usr/local install && make clean && cd ..)
-
-ENTRYPOINT ["/usr/sbin/sshd", "-D"]
-EXPOSE 22
-
-ENV REFRESHED_AT 2016-04-05
+ENV REFRESHED_AT 2016-04-07
