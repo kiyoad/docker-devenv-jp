@@ -82,7 +82,7 @@ RUN \
   go get -u github.com/nsf/gocode && \
   go get -u github.com/dougm/goflymake && \
   go get -u github.com/jstemmer/gotags && \
-  go get -u github.com/kisielk/errcheck && \
-  go get -u golang.org/x/tools/cmd/goimports
+  go get -u github.com/alecthomas/gometalinter && \
+  /opt/go/bin/gometalinter --install --update
 
-ENV REFRESHED_AT 2016-04-07
+ENV REFRESHED_AT 2016-04-09
