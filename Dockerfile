@@ -60,7 +60,7 @@ RUN \
 RUN \
   mkdir .build_pip && \
   (cd .build_pip && wget -q https://bootstrap.pypa.io/get-pip.py && python get-pip.py) && \
-  pip install grip virtualenv flake8 pygments
+  pip install grip virtualenv flake8 pygments diff-highlight
 
 RUN \
   export git=2.8.1 && \
