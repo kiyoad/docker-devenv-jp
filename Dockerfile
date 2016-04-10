@@ -17,7 +17,8 @@ RUN \
   apt-get install -qy cmigemo libncurses5-dev exuberant-ctags && \
   apt-get install -qy sdic sdic-edict sdic-gene95 && \
   apt-get install -qy libpython2.7-dev silversearcher-ag texinfo install-info && \
-  apt-get install -qy libssl-dev libcurl4-openssl-dev tcl gettext
+  apt-get install -qy libssl-dev libcurl4-openssl-dev tcl gettext && \
+  apt-get install -qy asciidoc
 
 ENV INSTALL_USER developer
 RUN \
@@ -66,7 +67,7 @@ RUN \
   export git=2.8.1 && \
   wget -q -O - https://github.com/git/git/archive/v${git}.tar.gz | tar zxf - && \
   mv git-${git} .build_git && \
-  (cd .build_git && make prefix=/usr/local && make prefix=/usr/local install && make clean)
+  (cd .build_git && make prefix=/usr/local && make prefix=/usr/local install && make prefix=/usr/local install-man && make clean)
 
 RUN \
   export golang=go1.6 && \
@@ -85,4 +86,4 @@ RUN \
   go get -u github.com/alecthomas/gometalinter && \
   /opt/go/bin/gometalinter --install --update
 
-ENV REFRESHED_AT 2016-04-09
+ENV REFRESHED_AT 2016-04-10
