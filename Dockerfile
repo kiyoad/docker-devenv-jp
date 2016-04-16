@@ -70,7 +70,7 @@ RUN \
   (cd .build_git && make prefix=/usr/local && make prefix=/usr/local install && make prefix=/usr/local install-man && make clean)
 
 RUN \
-  export golang=go1.6 && \
+  export golang=go1.6.1 && \
   wget -q -O - https://storage.googleapis.com/golang/${golang}.linux-amd64.tar.gz | tar -C /usr/local -zxf  - && \
   mkdir /opt/go && \
   echo 'export PATH=$PATH:/usr/local/go/bin:/opt/go/bin' >> .profile && \
