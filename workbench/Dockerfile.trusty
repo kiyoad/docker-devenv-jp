@@ -1,29 +1,27 @@
 FROM ubuntu:trusty
 MAINTAINER KIYOHIRO ADACHI <kiyoad@da2.so-net.ne.jp>
 
-ENV DEBIAN_FRONTEND noninteractive
+ADD id_rsa.pub /tmp/authorized_keys
 
+ENV DEBIAN_FRONTEND noninteractive
 RUN \
   echo "deb http://ftp.riken.jp/Linux/ubuntu/ trusty main multiverse" >> /etc/apt/sources.list && \
   echo "deb-src http://ftp.riken.jp/Linux/ubuntu/ trusty main multiverse" >> /etc/apt/sources.list && \
   apt-get update && apt-get upgrade -y && \
-  apt-get install -qy openssh-server language-pack-ja
+  apt-get install -qy openssh-server language-pack-ja && \
+  mkdir /var/run/sshd
 
+ENV INSTALL_USER developer
 RUN \
-  mkdir /var/run/sshd && \
-  adduser --disabled-password --gecos "Developer" --uid 1000 developer && \
-  mkdir /home/developer/.ssh
-ADD id_rsa.pub /home/developer/.ssh/authorized_keys
-RUN \
-  chown -R developer:developer /home/developer && \
-  echo "developer ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/developer && \
-  chmod 0440 /etc/sudoers.d/developer && \
+  adduser --disabled-password --gecos "Developer" --uid 1000 ${INSTALL_USER} && \
+  mkdir /home/${INSTALL_USER}/.ssh && \
+  mv /tmp/authorized_keys /home/${INSTALL_USER}/.ssh/authorized_keys && \
+  chown -R ${INSTALL_USER}:${INSTALL_USER} /home/${INSTALL_USER} && \
+  echo "${INSTALL_USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${INSTALL_USER} && \
+  chmod 0440 /etc/sudoers.d/${INSTALL_USER} && \
   update-locale LANG=ja_JP.UTF-8 LANGUAGE="ja_JP:ja" && \
-  rm /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
+  cp -p /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
   echo "Asia/Tokyo" > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
-ENV LANG ja_jp.UTF-8
-
-WORKDIR /home/developer
 
 RUN \
   apt-get install -qy supervisor && \
@@ -31,7 +29,9 @@ RUN \
   echo "[program:sshd]" >> /etc/supervisord.conf && \
   echo "command=/usr/sbin/sshd -D" >> /etc/supervisord.conf
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
 EXPOSE 22
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
 
-ENV REFRESHED_AT 2016-04-03
+WORKDIR /home/${INSTALL_USER}
+
+ENV REFRESHED_AT 2016-04-16
