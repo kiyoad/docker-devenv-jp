@@ -8,7 +8,7 @@ RUN \
   echo "deb http://ftp.riken.jp/Linux/ubuntu/ trusty main multiverse" >> /etc/apt/sources.list && \
   echo "deb-src http://ftp.riken.jp/Linux/ubuntu/ trusty main multiverse" >> /etc/apt/sources.list && \
   apt-get update && apt-get upgrade -y && \
-  apt-get install -qy openssh-server && \
+  apt-get install -qy openssh-server vim && \
   apt-get install -qy language-pack-ja man-db manpages-ja manpages-ja-dev && \
   apt-get install -qy gcc make xz-utils && \
   apt-get install -qy libtinfo-dev libx11-dev libxaw7-dev libgif-dev libjpeg-turbo8-dev libpng12-dev libtiff5-dev libxml2-dev librsvg2-dev libxft-dev libxpm-dev libgpm-dev libsm-dev libice-dev libxrandr-dev libxinerama-dev libgnutls-dev libmagickwand-dev xaw3dg-dev libdbus-1-dev libgconf2-dev libotf-dev libm17n-dev && \
@@ -87,4 +87,4 @@ RUN \
   go get -u github.com/alecthomas/gometalinter && \
   /opt/go/bin/gometalinter --install --update
 
-ENV REFRESHED_AT 2016-04-16
+ENV REFRESHED_AT 2016-04-19
