@@ -87,4 +87,14 @@ RUN \
   go get -u github.com/alecthomas/gometalinter && \
   /opt/go/bin/gometalinter --install --update
 
-ENV REFRESHED_AT 2016-04-21
+RUN \
+  export PATH=$PATH:/usr/local/go/bin && \
+  export GOPATH=/opt/go && \
+  go get -u github.com/direnv/direnv && \
+  echo '# direnv' > .bash_aliases && \
+  echo 'eval $(/opt/go/bin/direnv hook bash)' >> .bash_aliases && \
+  echo 'PS1='\''${VIRTUAL_ENV:+(virtualenv)}'\''${PS1}' >> .bash_aliases && \
+  echo 'export EDITOR=vim' >> .bash_aliases && \
+  chown ${INSTALL_USER}:${INSTALL_USER} .bash_aliases
+
+ENV REFRESHED_AT 2016-05-05
