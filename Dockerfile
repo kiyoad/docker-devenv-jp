@@ -64,13 +64,13 @@ RUN \
   pip install grip virtualenv flake8 pygments diff-highlight
 
 RUN \
-  export git=2.8.1 && \
+  export git=2.9.2 && \
   wget -q -O - https://github.com/git/git/archive/v${git}.tar.gz | tar zxf - && \
   mv git-${git} .build_git && \
   (cd .build_git && make prefix=/usr/local && make prefix=/usr/local install && make prefix=/usr/local install-man && make clean)
 
 RUN \
-  export golang=go1.6.2 && \
+  export golang=go1.6.3 && \
   wget -q -O - https://storage.googleapis.com/golang/${golang}.linux-amd64.tar.gz | tar -C /usr/local -zxf  - && \
   mkdir /opt/go && \
   echo 'export PATH=$PATH:/usr/local/go/bin:/opt/go/bin' >> .profile && \
@@ -97,4 +97,4 @@ RUN \
   echo 'export EDITOR=vim' >> .bash_aliases && \
   chown ${INSTALL_USER}:${INSTALL_USER} .bash_aliases
 
-ENV REFRESHED_AT 2016-05-05
+ENV REFRESHED_AT 2016-07-31
