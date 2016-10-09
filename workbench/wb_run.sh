@@ -1,13 +1,13 @@
 #!/bin/bash
 set -eu
 
-if [ $# -ne 1 ]; then
-    echo "Usage: $(basename $0) CONTAINER_NAME"
+if [ $# -ne 2 ]; then
+    echo "Usage: $(basename $0) IMAGE_NAME CONTAINER_NAME"
     exit 1
 fi
 
-container_name=$1
-image_name=kiyoad/wb_centos7
-export_local_dir=/home/kiyoad/Documents
+image_name=$1
+container_name=$2
+export_local_dir=${HOME}/Documents
 
 docker run -d -v ${export_local_dir}:/home/developer/Documents --hostname=${container_name} --name=${container_name} ${image_name}
