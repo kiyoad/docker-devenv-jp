@@ -1,14 +1,14 @@
-FROM ubuntu:trusty
+FROM ubuntu:xenial
 MAINTAINER KIYOHIRO ADACHI <kiyoad@da2.so-net.ne.jp>
 
 ADD id_rsa.pub /tmp/authorized_keys
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN \
-  echo "deb http://ftp.riken.jp/Linux/ubuntu/ trusty main multiverse" >> /etc/apt/sources.list && \
-  echo "deb-src http://ftp.riken.jp/Linux/ubuntu/ trusty main multiverse" >> /etc/apt/sources.list && \
+  echo "deb http://ftp.riken.jp/Linux/ubuntu/ xenial main multiverse" >> /etc/apt/sources.list && \
+  echo "deb-src http://ftp.riken.jp/Linux/ubuntu/ xenial main multiverse" >> /etc/apt/sources.list && \
   apt-get update && apt-get upgrade -y && \
-  apt-get install -qy openssh-server vim && \
+  apt-get install -qy openssh-server sudo vim && \
   apt-get install -qy language-pack-ja man-db manpages-ja manpages-ja-dev && \
   apt-get install -qy gcc make xz-utils && \
   apt-get install -qy libtinfo-dev libx11-dev libxaw7-dev libgif-dev libjpeg-turbo8-dev libpng12-dev libtiff5-dev libxml2-dev librsvg2-dev libxft-dev libxpm-dev libgpm-dev libsm-dev libice-dev libxrandr-dev libxinerama-dev libgnutls-dev libmagickwand-dev xaw3dg-dev libdbus-1-dev libgconf2-dev libotf-dev libm17n-dev && \
@@ -45,14 +45,14 @@ CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
 
 WORKDIR /home/${INSTALL_USER}
 RUN \
-  export emacs=emacs-24.5 && \
+  export emacs=emacs-25.1 && \
   wget -q -O - http://ftpmirror.gnu.org/emacs/${emacs}.tar.xz | tar xJf - && \
   mv ${emacs} .build_emacs && \
   (cd .build_emacs && ./configure && make install && make clean) && \
   echo 'export PATH=$PATH:~/.emacs.d/bin' >> .profile
 
 RUN \
-  export global=global-6.5.4 && \
+  export global=global-6.5.5 && \
   wget -q -O - http://ftpmirror.gnu.org/global/${global}.tar.gz | tar zxf - && \
   mv ${global} .build_global && \
   (cd .build_global && ./configure --with-exuberant-ctags=/usr/bin/ctags-exuberant && make install && make clean) && \
@@ -64,13 +64,13 @@ RUN \
   pip install grip virtualenv flake8 pygments diff-highlight
 
 RUN \
-  export git=2.9.2 && \
+  export git=2.10.1 && \
   wget -q -O - https://github.com/git/git/archive/v${git}.tar.gz | tar zxf - && \
   mv git-${git} .build_git && \
   (cd .build_git && make prefix=/usr/local && make prefix=/usr/local install && make prefix=/usr/local install-man && make clean)
 
 RUN \
-  export golang=go1.6.3 && \
+  export golang=go1.7.1 && \
   wget -q -O - https://storage.googleapis.com/golang/${golang}.linux-amd64.tar.gz | tar -C /usr/local -zxf  - && \
   mkdir /opt/go && \
   echo 'export PATH=$PATH:/usr/local/go/bin:/opt/go/bin' >> .profile && \
@@ -85,7 +85,7 @@ RUN \
   go get -u github.com/jstemmer/gotags && \
   go get -u golang.org/x/tools/cmd/godoc && \
   go get -u github.com/alecthomas/gometalinter && \
-  /opt/go/bin/gometalinter --install --update
+  /opt/go/bin/gometalinter --install
 
 RUN \
   export PATH=$PATH:/usr/local/go/bin && \
@@ -97,4 +97,4 @@ RUN \
   echo 'export EDITOR=vim' >> .bash_aliases && \
   chown ${INSTALL_USER}:${INSTALL_USER} .bash_aliases
 
-ENV REFRESHED_AT 2016-07-31
+ENV REFRESHED_AT 2016-10-09
