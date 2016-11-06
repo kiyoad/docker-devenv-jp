@@ -64,7 +64,7 @@ RUN \
   pip install grip virtualenv flake8 pygments diff-highlight
 
 RUN \
-  export git=2.10.1 && \
+  export git=2.10.2 && \
   wget -q -O - https://github.com/git/git/archive/v${git}.tar.gz | tar zxf - && \
   mv git-${git} .build_git && \
   (cd .build_git && make prefix=/usr/local && make prefix=/usr/local install && make prefix=/usr/local install-man && make clean)
@@ -98,4 +98,4 @@ RUN \
   echo 'export LESS='\''-g -i -M -R -S -W -z-4 -x4'\''' >> .bash_aliases && \
   chown ${INSTALL_USER}:${INSTALL_USER} .bash_aliases
 
-ENV REFRESHED_AT 2016-10-23
+ENV REFRESHED_AT 2016-11-06
